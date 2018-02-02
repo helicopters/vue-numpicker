@@ -23,4 +23,5 @@ Vue.use(wcNumpicker);
 v-model="check"	获取当前 checkbox 的状态, Boolean
 max	设置当前 picker 允许的最大值
 min	设置当前 picker 允许的最小值
+disabled	设置当前是否允许增加/减少, 因为有时候操作会有前置条件的
 ```
