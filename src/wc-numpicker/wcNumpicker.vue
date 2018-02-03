@@ -77,6 +77,13 @@
 			value (n) {
 				this.addDisabled = (n < this.max) ? false : true;
 				this.minusDisabled = (n > this.min) ? false : true;
+			},
+			/* 防止用户动态更改 max 和 min 值 */
+			max (n) {
+				this.addDisabled = (this.value < n) ? false : true;
+			},
+			min (n) {
+				this.minusDisabled = (this.min < n) ? false : true;
 			}
 		},
 		mounted () {
