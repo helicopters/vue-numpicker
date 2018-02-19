@@ -30,14 +30,14 @@
 	<div class="wc-numpicker-container clearfix">
 		<div class="wc-numpicker__inner">
 			<!-- - -->
-			<svg @click="minus" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1602" xmlns:xlink="http://www.w3.org/1999/xlink" class="minus" :class="{'disabled': minusDisabled || disabled}">
+			<svg @click.stop="minus($event)" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1602" xmlns:xlink="http://www.w3.org/1999/xlink" class="minus" :class="{'disabled': minusDisabled || disabled}">
 				<path d="M801.171 547.589H222.83c-17.673 0-32-14.327-32-32s14.327-32 32-32h578.341c17.673 0 32 14.327 32 32s-14.327 32-32 32z" p-id="1603">
 				</path>
 			</svg>
 			<!-- 数字 -->
 			<div class="num">{{value}}</div>
 			<!-- + -->
-			<svg @click="add" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1731" xmlns:xlink="http://www.w3.org/1999/xlink" class="add" :class="{'disabled': addDisabled || disabled}">
+			<svg @click.stop="add($event)" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1731" xmlns:xlink="http://www.w3.org/1999/xlink" class="add" :class="{'disabled': addDisabled || disabled}">
 				<path d="M801.171 483.589H544V226.418c0-17.673-14.327-32-32-32s-32 14.327-32 32v257.171H222.83c-17.673 0-32 14.327-32 32s14.327 32 32 32H480v257.17c0 17.673 14.327 32 32 32s32-14.327 32-32v-257.17h257.171c17.673 0 32-14.327 32-32s-14.327-32-32-32z" p-id="1732">
 				</path>
 			</svg>	
@@ -88,7 +88,7 @@
 		},
 		mounted () {
 			if (this.value > this.max || this.value < this.min) {
-				throw new Error ('Error value')
+				throw new Error ('wcNumpicker: Error value')
 			}
 
 			/* 初始化的时候同样要监听 value 配合样式 */
@@ -97,24 +97,26 @@
 		},
 		methods: {
 			/* 降低 */
-			minus () {
+			minus (e) {
 				/* 如果用户没有禁用, 并且当前值是大于最小值, 那么就允许*/
 				!this.disabled 
 				&& this.value > this.min 
 				&& (()=>{
 					let v = this.value;
-					this.$emit('input', --v);					
+					this.$emit('input', --v);
+					this.$emit('decrease', e);				
 				})();
 
 			},
 			/* 增加 */
-			add () {
+			add (e) {
 
 				!this.disabled 
 				&& this.value < this.max 
 				&& (()=>{
 					let v = this.value;
-					this.$emit('input', ++v);					
+					this.$emit('input', ++v);	
+					this.$emit('increase', e);				
 				})();
 
 			}
